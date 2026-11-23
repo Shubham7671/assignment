@@ -432,6 +432,34 @@ streamlit run app.py
 | **Analytics & audit** | Provider/model usage, review decisions, the audit log |
 | **Settings & diagnostics** | Load/reset sample data, configuration, provider and NLP status, the fairness controls explained |
 
+### Deploying to Streamlit Community Cloud
+
+1. Push the repo to GitHub (already done — `main`).
+2. At [share.streamlit.io](https://share.streamlit.io): **New app** → this
+   repo → branch `main` → main file `app.py`.
+3. **Advanced settings → Secrets**: paste the contents of
+   `.streamlit/secrets.toml.example`, filled in. With no key at all the app
+   still deploys and runs on the offline generator.
+4. Deploy.
+
+Three things the app does so a fresh container works:
+
+- **Secrets bridge** — `bridge_secrets()` copies Streamlit secrets into the
+  environment before settings are read, so `leadqual` stays a plain
+  environment-variable reader with no Streamlit dependency. A real
+  environment variable always wins, so a local `.env` is never overridden.
+- **NLTK bootstrap** — `ensure_nltk_data()` downloads `punkt`, `stopwords`
+  and `vader_lexicon` once per container. The NLP layer has fallbacks for
+  all of them, so a failed download degrades quality rather than crashing.
+- **Auto-seed** — the database is a generated artefact and is git-ignored,
+  so a deployment starts with no file. `get_database()` creates the schema
+  and loads the synthetic sample data when it finds an empty database,
+  rather than opening on a blank dashboard.
+
+The Community Cloud filesystem is ephemeral: the database resets whenever the
+container restarts. That is fine for a demonstration and is why the sample
+data is re-seeded automatically.
+
 ### The "Show technical details" toggle
 
 The sidebar has a **Show technical details** checkbox, **off by default**.

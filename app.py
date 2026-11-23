@@ -11,6 +11,8 @@ and follow-up questions -> save counsellor review.
 
 from __future__ import annotations
 
+import os
+
 import altair as alt
 import pandas as pd
 import streamlit as st
@@ -75,10 +77,76 @@ st.set_page_config(
 # --------------------------------------------------------------------------
 # Shared resources
 # --------------------------------------------------------------------------
+#: Settings that may be supplied through Streamlit secrets when deployed.
+_SECRET_KEYS = (
+    "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "LEADQUAL_PROVIDER", "LEADQUAL_MODEL",
+    "LEADQUAL_GEMINI_MODEL", "LEADQUAL_MAX_TOKENS", "LEADQUAL_OFFLINE",
+    "LEADQUAL_ALLOW_FALLBACK", "LEADQUAL_GEMINI_RETRIES", "LEADQUAL_DB_PATH",
+)
+
+
+def bridge_secrets() -> None:
+    """Copy Streamlit secrets into the environment.
+
+    Locally the key comes from a git-ignored ``.env``. On Streamlit Community
+    Cloud there is no ``.env`` — the key is entered in the app's Secrets
+    panel. Copying those into ``os.environ`` lets :func:`load_settings` stay
+    a plain environment-variable reader, with no Streamlit dependency inside
+    the ``leadqual`` package.
+
+    A real environment variable always wins, so this never overrides a local
+    ``.env``.
+    """
+    try:
+        secrets = st.secrets
+    except Exception:
+        return  # no secrets.toml configured - normal when running locally
+    for key in _SECRET_KEYS:
+        try:
+            if key in secrets and not os.getenv(key):
+                os.environ[key] = str(secrets[key])
+        except Exception:
+            continue
+
+
+@st.cache_resource(show_spinner="Preparing language resources...")
+def ensure_nltk_data() -> dict[str, bool]:
+    """Download the NLTK corpora if they are missing.
+
+    A fresh Community Cloud container has none of them. The NLP layer falls
+    back to regex and a built-in stopword list without them, but sentence
+    segmentation and sentiment are better with them, so fetch them once per
+    container. Failures are non-fatal.
+    """
+    results: dict[str, bool] = {}
+    try:
+        import nltk
+    except ImportError:
+        return results
+    for package in ("punkt", "punkt_tab", "stopwords", "vader_lexicon"):
+        try:
+            results[package] = bool(nltk.download(package, quiet=True))
+        except Exception:
+            results[package] = False
+    return results
+
+
 @st.cache_resource(show_spinner=False)
 def get_database(path: str) -> Database:
-    """Open (once per session) the SQLite database."""
-    return open_database(path)
+    """Open (once per session) the SQLite database.
+
+    On a fresh deployment the database file does not exist — it is a
+    generated artefact and is git-ignored — so an empty one is seeded with
+    the synthetic sample data. Without this a deployed app would open on a
+    blank dashboard.
+    """
+    database = open_database(path)
+    try:
+        if (database.query_pipeline_overview().get("total_leads") or 0) == 0:
+            seed_database(database)
+    except LeadQualError:
+        pass  # a blank app is better than a crash; Settings can seed manually
+    return database
 
 
 def show_technical() -> bool:
@@ -745,6 +813,11 @@ budget or a non-traditional background as a negative signal.
 # Main
 # --------------------------------------------------------------------------
 def main() -> None:
+    # Must run before load_settings(): on Streamlit Community Cloud the API
+    # key arrives as a secret, not as a .env file.
+    bridge_secrets()
+    ensure_nltk_data()
+
     settings = load_settings()
 
     st.sidebar.title("🎓 Lead Qualification")
