@@ -764,24 +764,34 @@ def main() -> None:
          "Settings & diagnostics"],
     )
 
-    provider = QualificationLLM(settings).status()
     st.sidebar.divider()
-    if provider["live_calls_enabled"]:
-        st.sidebar.success(
-            f"Live API ready\n\n**{provider['provider']}**\n\n`{provider['model']}`"
-        )
-    else:
-        st.sidebar.warning("Offline generator\n\nNo API key configured")
+    # Declared before anything that reads it, so the toggle takes effect on
+    # the same render rather than one behind.
     st.sidebar.checkbox(
         "Show technical details",
         key="show_technical",
         help=(
-            "Token counts, latency, response ids, the raw model payload and the "
-            "prompt inspector. Off by default: a counsellor does not need them, "
-            "but a marker or developer does. Everything is stored either way "
-            "and always visible on Analytics & audit."
+            "Provider and model names, token counts, latency, response ids, the "
+            "raw model payload and the prompt inspector. Off by default: a "
+            "counsellor does not need them, a marker or developer does. "
+            "Everything is stored either way and always visible on "
+            "Analytics & audit."
         ),
     )
+
+    provider = QualificationLLM(settings).status()
+    # The badge reports whether a live call is possible. Which provider and
+    # model follows the technical toggle, like every other audit detail -
+    # the per-report provenance line is what always names the model.
+    if provider["live_calls_enabled"]:
+        if show_technical():
+            st.sidebar.success(
+                f"Live API ready\n\n**{provider['provider']}**\n\n`{provider['model']}`"
+            )
+        else:
+            st.sidebar.success("Live API connected")
+    else:
+        st.sidebar.warning("Offline generator\n\nNo API key configured")
     st.sidebar.caption(
         "Synthetic sample data only. The assistant assesses information "
         "completeness, never the enquirer."
