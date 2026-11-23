@@ -1,0 +1,15 @@
+[theme]
+# The chart colours in app.py were validated against this exact surface
+# (see references in README.md -> "Visual design"). Pinning the theme keeps
+# that validation meaningful.
+base = "light"
+backgroundColor = "#fcfcfb"
+secondaryBackgroundColor = "#f3f3f0"
+textColor = "#0b0b0b"
+font = "sans serif"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

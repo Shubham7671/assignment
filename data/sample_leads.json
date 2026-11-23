@@ -1,0 +1,206 @@
+{
+  "_comment": "Synthetic, anonymised sample data for Project 027. No real person, email address or phone number appears here. All names are invented and all addresses use the reserved example.com domain.",
+  "generated_for": "Lead Qualification & Readiness Assistant",
+  "leads": [
+    {
+      "external_ref": "CRM-1001",
+      "full_name": "Priya Raghavan",
+      "email": "priya.raghavan@example.com",
+      "phone": "+44 7700 900111",
+      "source": "web_form",
+      "programme_interest": "MSc Data Analytics",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "web_form",
+          "direction": "inbound",
+          "sent_at": "2026-10-02T09:14:00+00:00",
+          "body": "Hello, I am interested in the MSc in Data Analytics. My goal is to move from a reporting role into a proper data science position within the next two years. I have completed a BSc in Statistics and I am currently working as a business analyst with 4 years of experience. I would prefer to study online part-time because I cannot leave my job. Weekday evenings after 7pm and Saturday mornings work best for me, roughly 12 hours a week. I am based in Manchester. Could you tell me when the next intake starts?"
+        },
+        {
+          "channel": "email",
+          "direction": "inbound",
+          "sent_at": "2026-10-04T18:40:00+00:00",
+          "body": "Following up on my enquiry. I would like to start in the January intake if there is still space. My budget is around £9,000 and my employer may sponsor part of it, so an instalment plan would help. Best way to reach me is WhatsApp in the evenings. What documents do I need for the application?"
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1002",
+      "full_name": "Daniel Okoro",
+      "email": "d.okoro@example.com",
+      "phone": "+44 7700 900222",
+      "source": "web_form",
+      "programme_interest": null,
+      "status": "new",
+      "messages": [
+        {
+          "channel": "web_form",
+          "direction": "inbound",
+          "sent_at": "2026-10-11T13:02:00+00:00",
+          "body": "Hi, please send me more information about your courses. Thanks."
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1003",
+      "full_name": "Mei Lin Chong",
+      "email": "meilin.chong@example.com",
+      "phone": null,
+      "source": "chat",
+      "programme_interest": "MBA",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "chat",
+          "direction": "inbound",
+          "sent_at": "2026-10-14T10:25:00+00:00",
+          "body": "How much are the fees for the MBA? Is there an EMI option or any scholarship available? I am self-funding so cost matters a lot to me."
+        },
+        {
+          "channel": "chat",
+          "direction": "inbound",
+          "sent_at": "2026-10-14T10:31:00+00:00",
+          "body": "Also is the MBA accredited? And roughly what salary do graduates get afterwards?"
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1004",
+      "full_name": "Tomasz Nowak",
+      "email": "t.nowak@example.com",
+      "phone": "+48 600 900 333",
+      "source": "email",
+      "programme_interest": "Cyber Security Bootcamp",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "email",
+          "direction": "inbound",
+          "sent_at": "2026-10-18T08:05:00+00:00",
+          "body": "Good morning. I want to switch careers into cyber security. I am currently working as an IT support technician and I have 6 years of experience, plus a diploma in Computer Science. I am looking at your cyber security bootcamp. I can only study at weekends because of shift work. I live in Krakow and my time zone is CET. When does the next cohort begin and how long is it?"
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1005",
+      "full_name": "Aisha Bello",
+      "email": "aisha.bello@example.com",
+      "phone": "+234 800 900 444",
+      "source": "whatsapp",
+      "programme_interest": "Digital Marketing Certificate",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "whatsapp",
+          "direction": "inbound",
+          "sent_at": "2026-10-21T16:48:00+00:00",
+          "body": "Hi! I saw your advert for the digital marketing certificate and I am very keen. I want to start as soon as possible, ideally within 4 weeks. Is it online? Please call me after 5pm, that is the best time to reach me."
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1006",
+      "full_name": "James Whitfield",
+      "email": "j.whitfield@example.com",
+      "phone": "+44 7700 900555",
+      "source": "phone",
+      "programme_interest": "PG Diploma Project Management",
+      "status": "in_progress",
+      "messages": [
+        {
+          "channel": "phone",
+          "direction": "inbound",
+          "sent_at": "2026-10-22T11:10:00+00:00",
+          "body": "Called to ask about the project management postgraduate diploma. My aim is to get a promotion to programme manager at work. I hold a BA in Business Studies and I am currently working as a project coordinator."
+        },
+        {
+          "channel": "email",
+          "direction": "outbound",
+          "sent_at": "2026-10-22T14:00:00+00:00",
+          "body": "Thank you for your call today. I have attached the programme outline as discussed. Please let me know your preferred start date and study pattern."
+        },
+        {
+          "channel": "email",
+          "direction": "inbound",
+          "sent_at": "2026-10-25T20:15:00+00:00",
+          "body": "Thanks for sending that over. I would like to begin in March 2027. I can manage about 8 hours a week, mostly Tuesday and Thursday evenings. I am based in Leeds. I still need to check the cost with my manager before committing."
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1007",
+      "full_name": "Sofia Martinez",
+      "email": "sofia.martinez@example.com",
+      "phone": null,
+      "source": "web_form",
+      "programme_interest": "BSc Nursing",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "web_form",
+          "direction": "inbound",
+          "sent_at": "2026-10-27T07:33:00+00:00",
+          "body": "I am a 42 year old married woman with two children and I am worried I am too old to retrain. I would like to study nursing on campus. Is there an evening option? I am based in Valencia."
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1008",
+      "full_name": "Arjun Mehta",
+      "email": "arjun.mehta@example.com",
+      "phone": "+91 98765 00666",
+      "source": "email",
+      "programme_interest": "MSc Artificial Intelligence",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "email",
+          "direction": "inbound",
+          "sent_at": "2026-10-29T05:20:00+00:00",
+          "body": "Dear Admissions, I would like to apply for the MSc in Artificial Intelligence. My goal is to become a machine learning engineer and eventually relocate to Europe. I completed a BTech in Computer Science in 2023 and I have 2 years of experience as a software developer. My budget is approximately INR 15 lakh and I am exploring an education loan. I can study full-time on campus and I am ready to join the September 2027 intake. My time zone is IST. What is the application deadline, and is IELTS required?"
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1009",
+      "full_name": "Grace Adeyemi",
+      "email": "g.adeyemi@example.com",
+      "phone": "+44 7700 900777",
+      "source": "sms",
+      "programme_interest": null,
+      "status": "new",
+      "messages": [
+        {
+          "channel": "sms",
+          "direction": "inbound",
+          "sent_at": "2026-11-01T19:02:00+00:00",
+          "body": "do you do accounting courses? how much"
+        }
+      ]
+    },
+    {
+      "external_ref": "CRM-1010",
+      "full_name": "Lukas Brandt",
+      "email": "lukas.brandt@example.com",
+      "phone": "+49 151 900888",
+      "source": "web_form",
+      "programme_interest": "MSc Supply Chain Management",
+      "status": "new",
+      "messages": [
+        {
+          "channel": "web_form",
+          "direction": "inbound",
+          "sent_at": "2026-11-05T12:44:00+00:00",
+          "body": "Hello, I am enquiring about the MSc in Supply Chain Management. I am currently working as a logistics planner and my background is in industrial engineering. I would like to upskill so I can move into a regional operations role. I prefer a hybrid format, around 10 hours a week, and I am available on Mondays and Wednesdays. Email is best for contacting me."
+        },
+        {
+          "channel": "email",
+          "direction": "inbound",
+          "sent_at": "2026-11-08T09:12:00+00:00",
+          "body": "One more thing - is the programme recognised in Germany? I am based in Hamburg."
+        }
+      ]
+    }
+  ]
+}

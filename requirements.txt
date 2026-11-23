@@ -1,0 +1,27 @@
+# Project 027 - Lead Qualification & Readiness Assistant
+# Python 3.10+
+
+# --- LLM providers (real API integrations) ---
+# Anthropic Claude: the provider the brief names. Paid, no free tier.
+anthropic>=0.77.0
+# Google Gemini: used because its Flash models have a free tier, so a live
+# API call can be demonstrated without buying credits.
+google-genai>=1.0
+
+# --- NLP ---
+nltk>=3.8
+scikit-learn>=1.3
+
+# --- Data processing / reporting ---
+pandas>=2.0
+
+# --- Configuration ---
+python-dotenv>=1.0
+
+# --- CLI presentation ---
+rich>=13.0
+
+# --- Counsellor UI ---
+streamlit>=1.30
+
+# sqlite3 is part of the Python standard library - no install required.
