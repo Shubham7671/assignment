@@ -142,7 +142,19 @@ Score = Σ(weight × credit) − 4 points per missing *required* field, clamped 
 
 ```
 project/
-├── app.py                      Streamlit counsellor UI (5 pages)
+├── app.py                      Streamlit entry point: bootstrap, sidebar, st.navigation
+├── app_pages/
+│   ├── overview.py             Dashboard: KPI wall, readiness, gaps, work queue
+│   ├── workbench.py            One lead end to end, in four numbered steps
+│   ├── reports.py              Every report produced, filterable, with reviews
+│   ├── analytics.py            Provider/token audit, field coverage, audit log
+│   └── settings.py             Sample data, environment, fairness controls
+├── ui/
+│   ├── theme.py                Theme-aware tokens (light/dark status colours)
+│   ├── components.py           Cards, KPI wall, band badges, appearance switch
+│   ├── charts.py               Altair builders, transparent + theme-aware
+│   └── state.py                Cached resources and session state shared by pages
+├── assets/                     Light and dark wordmarks for st.logo
 ├── leadqual/
 │   ├── config.py               Settings from env / .env, never hard-coded
 │   ├── exceptions.py           Exception hierarchy rooted at LeadQualError
@@ -166,12 +178,14 @@ project/
 │   └── cli.py                  argparse CLI (16 subcommands)
 ├── data/sample_leads.json      10 synthetic leads, 15 messages
 ├── tests/                      227 tests, no network access
-└── .streamlit/config.toml      Pinned theme (see Design notes)
+└── .streamlit/config.toml      Dual light/dark theme (see Design notes)
 ```
 
-Layering is strict and one-directional: `cli`/`app` → `pipeline` →
-(`nlp`, `scoring`, `llm`, `db`) → (`models`, `validation`, `fairness`,
-`config`, `exceptions`). No lower layer imports a higher one.
+Layering is strict and one-directional: `cli`/`app`/`app_pages` → `ui` →
+`pipeline` → (`nlp`, `scoring`, `llm`, `db`) → (`models`, `validation`,
+`fairness`, `config`, `exceptions`). No lower layer imports a higher one, and
+nothing under `leadqual/` imports Streamlit — which is why the CLI and the
+tests run without it.
 
 ---
 
@@ -575,16 +589,42 @@ path stays complete and tested, and the `provider` column in
 Defaults are deliberately the cheapest model on each side, with a test
 (`TestCheapDefaults`) that fails if someone changes that without meaning to.
 
-**Visual design.** The theme is pinned in `.streamlit/config.toml` so the
-chart colours are validated against a known surface. Readiness bands use a
-reserved **status** palette (`#0ca30c` / `#fab219` / `#d03b3b`), never a
-categorical series colour; the amber step sits below 3:1 contrast on this
-surface by design, so every band ships with a text label and a glyph and
-colour never carries meaning alone. Adjacent-pair separation was checked
-rather than eyeballed (worst CVD ΔE 11.3, normal-vision ΔE 27.6 — both clear
-of the ≥8 / ≥15 floors). The missing-fields chart is a single series, so it
-uses one sequential hue and no legend. Both charts have hover tooltips, direct
-value labels and a table view beside them.
+**Visual design.** Colour is configuration, not code. `.streamlit/config.toml`
+defines a complete light palette and a complete dark one — surfaces, type,
+radii, semantic colours, dataframe chrome and the chart palettes — so widgets,
+tables and charts all follow whichever appearance the user picked. Nothing in
+the app injects CSS.
+
+*Switching appearance.* Both `[theme.light]` and `[theme.dark]` are defined,
+which keeps Streamlit's own appearance control available under **Settings →
+Appearance** in the top-right menu. The sidebar also carries a **Light / Dark**
+switch; because theme options cannot be set from a script, that one writes the
+same browser preference the Settings menu writes and reloads the page, so it
+costs a new session. The Settings-menu control switches without a reload and is
+the better one to use mid-task. Both are documented in
+`ui/components.py::_apply_appearance`.
+
+*Readiness bands* use a reserved **status** palette, never a categorical series
+colour, and ship a light and a dark variant (`ui/theme.py`). A chart that
+regrouped its data must not be able to change what a band colour means. On the
+light surface the amber step sits below 3:1 contrast by design, so every band
+is always accompanied by a text label and a glyph and colour never carries the
+meaning alone. Adjacent-pair separation was checked rather than eyeballed
+(worst CVD ΔE 11.3, normal-vision ΔE 27.6 — both clear of the ≥8 / ≥15 floors).
+
+*Charts* are all Altair, drawn on a transparent background so the card surface
+shows through, with their text, gridline and accent colours resolved from
+`st.context.theme` at render time. The missing-fields chart is a single series,
+so it uses one hue — solid for required fields, muted for optional ones — and
+no legend. Every chart has hover tooltips, direct value labels where they fit,
+and the two headline charts have a table view beside them.
+
+*Layout.* Pages are composed from bordered cards, one question per card with
+the heading stated as that question, and a responsive `st.grid` KPI wall that
+drops columns rather than stacking everything at once. Navigation is
+`st.navigation` over `app_pages/`, grouped into **Pipeline** and
+**Operations**, in the order the development flow runs rather than
+alphabetically.
 
 ---
 
@@ -603,11 +643,14 @@ value labels and a table view beside them.
   every request. The retry configuration absorbs this, but a run can take
   30 seconds instead of 4, and a long enough outage will still exhaust the
   budget. Raise `LEADQUAL_GEMINI_RETRIES` or retry the command.
-- **Chart rendering was not visually inspected.** No browser was available in
-  the environment this was built in, so the Vega-Lite specs were verified
-  programmatically (colours, sort order, absence of a legend, tooltips, mark
-  geometry) but the rendered layout has not been eyeballed. Worth a look
-  before demonstrating.
+- **The UI was not visually inspected in a browser.** No browser was available
+  in the environment this was built in. Every page was driven end to end
+  through Streamlit's agent API (all five pages, both chart/table views, the
+  report filters, an NLP run and a full generate-and-review cycle, with a
+  clean server log and no rendered exceptions), and the Vega-Lite specs were
+  verified programmatically in *both* appearances — but the rendered layout,
+  the dark palette and the sidebar appearance switch have not been eyeballed.
+  Worth a look before demonstrating.
 - **Extraction is English-only** and tuned for education enquiries. A
   programme name the lexicon does not know is caught only by the generic
   "interested in X" patterns.

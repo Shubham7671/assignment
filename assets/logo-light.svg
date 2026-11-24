@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 44" width="208" height="44" role="img" aria-label="LeadQual">
+  <rect x="2" y="6" width="32" height="32" rx="9" fill="#4338CA"/>
+  <path d="M10.5 22.5l4.2 4.4 8.8-9.8" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="44" y="23" font-family="Inter, 'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="700" fill="#15141A">LeadQual</text>
+  <text x="44" y="35" font-family="Inter, 'Segoe UI', system-ui, sans-serif" font-size="9.5" font-weight="500" letter-spacing="0.9" fill="#6B6A64">READINESS ASSISTANT</text>
+</svg>

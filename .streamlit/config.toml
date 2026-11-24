@@ -1,12 +1,173 @@
+# Lead Qualification & Readiness Assistant — application theme
+#
+# Dual mode. Both [theme.light] and [theme.dark] are defined, so Streamlit's
+# appearance control stays available (Settings → Appearance, or the
+# "Appearance" switch in the app sidebar) and the app is *designed* for both
+# rather than merely surviving one of them.
+#
+# Chart colour is configuration, not code. Every Altair chart in the app runs
+# with the default `theme="streamlit"` and reads these palettes, so a chart
+# recolours itself when the mode changes. The only exception is the readiness
+# band encoding, which is a STATUS scale, not a categorical series: those three
+# hexes live in `ui/theme.py` with a light and a dark variant, and every band is
+# always shipped with a text label and a glyph so colour never carries the
+# meaning alone.
+
 [theme]
-# The chart colours in app.py were validated against this exact surface
-# (see references in README.md -> "Visual design"). Pinning the theme keeps
-# that validation meaningful.
-base = "light"
-backgroundColor = "#fcfcfb"
-secondaryBackgroundColor = "#f3f3f0"
-textColor = "#0b0b0b"
-font = "sans serif"
+# Shared across both modes: type, shape and spacing.
+font = "'Inter':https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "'Inter':https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap"
+codeFont = "'JetBrains Mono':https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+baseFontSize = 15
+baseFontWeight = 400
+codeFontSize = "13px"
+headingFontSizes = ["30px", "23px", "19px", "16px", "14px", "13px"]
+headingFontWeights = [700, 650, 600, 600, 550, 550]
+metricValueFontSize = "2rem"
+metricValueFontWeight = 650
+linkUnderline = false
+baseRadius = "10px"
+buttonRadius = "8px"
+showWidgetBorder = true
+showSidebarBorder = true
+paddingTop = "1rem"
+paddingBottom = "4rem"
+
+[theme.sidebar]
+paddingTop = "0.75rem"
+paddingBottom = "1.5rem"
+
+# --------------------------------------------------------------------------
+# Light mode — warm paper surface, indigo accent
+# --------------------------------------------------------------------------
+[theme.light]
+primaryColor = "#4338CA"
+backgroundColor = "#FCFCFB"
+secondaryBackgroundColor = "#F2F2EF"
+textColor = "#15141A"
+linkColor = "#4338CA"
+borderColor = "#DEDDD6"
+codeBackgroundColor = "#F2F2EF"
+codeTextColor = "#3730A3"
+greenColor = "#0E8A3E"
+redColor = "#C62828"
+yellowColor = "#B4690E"
+orangeColor = "#C2410C"
+blueColor = "#2563EB"
+violetColor = "#6D28D9"
+grayColor = "#6B6A64"
+chartCategoricalColors = [
+    "#4338CA",
+    "#0E8A3E",
+    "#B4690E",
+    "#2563EB",
+    "#BE185D",
+    "#0F766E",
+    "#6B6A64",
+    "#C2410C",
+]
+chartSequentialColors = [
+    "#EEF0FD",
+    "#DDE1FB",
+    "#C2C8F7",
+    "#A3ABF0",
+    "#838DE7",
+    "#6670DB",
+    "#5055CE",
+    "#4338CA",
+    "#372CA6",
+    "#271E7C",
+]
+chartDivergingColors = [
+    "#7F1D1D",
+    "#B91C1C",
+    "#DC2626",
+    "#F87171",
+    "#FECACA",
+    "#C7D2FE",
+    "#818CF8",
+    "#4F46E5",
+    "#3730A3",
+    "#1E1B4B",
+]
+dataframeBorderColor = "#DEDDD6"
+dataframeHeaderBackgroundColor = "#ECECE7"
+dataframeHeaderTextColor = "#15141A"
+
+[theme.light.sidebar]
+backgroundColor = "#F6F6F3"
+secondaryBackgroundColor = "#EAEAE5"
+codeBackgroundColor = "#EAEAE5"
+textColor = "#15141A"
+borderColor = "#DEDDD6"
+primaryColor = "#4338CA"
+linkColor = "#4338CA"
+
+# --------------------------------------------------------------------------
+# Dark mode — deep slate surface, luminous indigo accent
+# --------------------------------------------------------------------------
+[theme.dark]
+primaryColor = "#6366F1"
+backgroundColor = "#101019"
+secondaryBackgroundColor = "#1B1B29"
+textColor = "#E8E8F2"
+linkColor = "#A5B4FC"
+borderColor = "#2E2E44"
+codeBackgroundColor = "#1B1B29"
+codeTextColor = "#C7D2FE"
+greenColor = "#3DD68C"
+redColor = "#FF6B6B"
+yellowColor = "#F5B342"
+orangeColor = "#FB923C"
+blueColor = "#60A5FA"
+violetColor = "#A78BFA"
+grayColor = "#9A99AD"
+chartCategoricalColors = [
+    "#818CF8",
+    "#3DD68C",
+    "#F5B342",
+    "#60A5FA",
+    "#F472B6",
+    "#2DD4BF",
+    "#9A99AD",
+    "#FB923C",
+]
+chartSequentialColors = [
+    "#1A1A2E",
+    "#232347",
+    "#2F2F66",
+    "#3C3B85",
+    "#4A49A4",
+    "#5B5AC0",
+    "#7272D6",
+    "#8E8EE6",
+    "#AFAFF2",
+    "#D5D5FA",
+]
+chartDivergingColors = [
+    "#7F1D1D",
+    "#B91C1C",
+    "#EF4444",
+    "#FCA5A5",
+    "#FEE2E2",
+    "#DDD6FE",
+    "#A5B4FC",
+    "#6366F1",
+    "#4338CA",
+    "#2E1065",
+]
+dataframeBorderColor = "#2E2E44"
+dataframeHeaderBackgroundColor = "#1B1B29"
+dataframeHeaderTextColor = "#F5F5FF"
+
+[theme.dark.sidebar]
+backgroundColor = "#0A0A12"
+secondaryBackgroundColor = "#1B1B29"
+codeBackgroundColor = "#1B1B29"
+textColor = "#E8E8F2"
+borderColor = "#2E2E44"
+primaryColor = "#6366F1"
+linkColor = "#A5B4FC"
 
 [server]
 headless = true
